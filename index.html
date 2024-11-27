@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Game Gallery</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        :root {
+            --neon-pink: #ff71ce;
+            --neon-blue: #01cdfe;
+            --neon-green: #05ffa1;
+            --neon-purple: #b967ff;
+            --dark-bg: #1a1a2e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(45deg, #120458 0%, #000000 100%);
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .header {
+            background: var(--dark-bg);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 113, 206, 0.5);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink),
+                         0 0 20px var(--neon-pink),
+                         0 0 30px var(--neon-pink);
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 1rem;
+            border: 3px solid var(--neon-blue);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            box-shadow: 0 0 15px var(--neon-blue);
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .dropbtn {
+            background-color: var(--neon-blue);
+            color: white;
+            padding: 1rem;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+
+        .dropbtn:hover {
+            background-color: var(--neon-green);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--dark-bg);
+            min-width: 100%;
+            z-index: 10;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .dropdown-content .category-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            text-align: left;
+            background: transparent;
+            color: var(--neon-green);
+            cursor: pointer;
+        }
+
+        .dropdown-content .category-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .game-card {
+            background: rgba(26, 26, 46, 0.9);
+            border: 3px solid var(--neon-purple);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                var(--neon-pink), 
+                var(--neon-blue), 
+                var(--neon-purple), 
+                var(--neon-green));
+            z-index: -1;
+            border-radius: 17px;
+            animation: borderAnimation 3s linear infinite;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 0 30px rgba(185, 103, 255, 0.4);
+        }
+
+        .game-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--neon-purple);
+        }
+
+        .game-info {
+            padding: 1rem;
+            flex-grow: 1;
+        }
+
+        .game-title {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 5px var(--neon-blue);
+        }
+
+        .game-description {
+            font-size: 0.8rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .play-btn {
+            display: inline-block;
+            padding: 0.6rem 1rem;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-purple));
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .play-btn:hover::before {
+            left: 100%;
+        }
+
+        .play-btn:hover {
+            box-shadow: 0 0 20px var(--neon-pink);
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--neon-blue);
+            font-size: 0.7rem;
+            margin-top: auto;
+            position: relative;
+            z-index: 2;
+            border-top: 2px solid var(--neon-blue);
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px var(--neon-pink),
+                            0 0 20px var(--neon-pink),
+                            0 0 30px var(--neon-pink);
+            }
+            to {
+                text-shadow: 0 0 20px var(--neon-pink),
+                            0 0 30px var(--neon-pink),
+                            0 0 40px var(--neon-pink);
+            }
+        }
+
+        @keyframes borderAnimation {
+            0% {
+                filter: hue-rotate(0deg);
+            }
+            100% {
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .search-container {
+                margin: 1rem;
+            }
+
+            .search-bar {
+                font-size: 0.7rem;
+                padding: 0.8rem;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+                gap: 1rem;
+                overflow-y: auto;
+                max-height: 90vh;
+            }
+
+            .game-card {
+                margin: 0;
+            }
+
+            .game-title {
+                font-size: 0.8rem;
+            }
+
+            .game-description {
+                font-size: 0.6rem;
+            }
+
+            .play-btn {
+                padding: 0.6rem;
+                font-size: 0.6rem;
+            }
+
+            .dropdown-content {
+                position: relative;
+                box-shadow: none;
+                z-index: 10;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .search-bar {
+                font-size: 0.8rem;
+            }
+
+            .game-title {
+                font-size: 1rem;
+            }
+
+            .game-description {
+                font-size: 0.7rem;
+            }
+
+            .play-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.8rem;
+            }
+
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>$STONE ARCADE</h1>
+    </header>
+<!-- 
+    <div class="search-container">
+        <input type="text" class="search-bar" placeholder="SEARCH GAMES..." id="searchInput">
+    </div>
+
+    <div class="dropdown">
+        <button class="dropbtn">Categories</button>
+        <div class="dropdown-content">
+            <button class="category-btn" data-category="all">All Games</button>
+            <button class="category-btn" data-category="puzzle">Puzzle</button>
+            <button class="category-btn" data-category="arcade">Arcade</button>
+            <button class="category-btn" data-category="strategy">Strategy</button>
+            <button class="category-btn" data-category="casual">Casual</button>
+        </div>
+    </div> 
+-->
+
+    <div class="games-grid" id="gamesGrid">
+
+        <!-- Repeat for other game cards -->
+    </div>
+
+    <footer>
+        <p>&copy; 2024 All Rights Reserved | Created by <strong>$STONE</strong></p>
+    </footer>
+
+    <script>
+        // Same JavaScript code as before
+        const games = [
+            {
+                title: "Slider",
+                description: "Challenge your mind with exciting puzzles",
+                image: "https://sliders-game-stone.netlify.app/static/top/slider.png",
+                category: "puzzle",
+                url: "https://sliders-game-stone.netlify.app/static/main.html"
+            },
+            {
+                title: "Nuzzle",
+                description: "Classic puzzle game",
+                image: "https://sliders-game-stone.netlify.app/static/top/nuzzle.png",
+                category: "casual",
+                url: "https://nuzzle.netlify.app/game/index.html"
+            },
+            {
+                title: "Buster",
+                description: "Space Invaders on Stacks",
+                image: "https://sliders-game-stone.netlify.app/static/top/CB.png",
+                category: "arcade",
+                url: "https://coinbust.netlify.app"
+            },
+        ];
+
+        function createGameCard(game) {
+            return `
+                <div class="game-card" data-category="${game.category}">
+                    <img src="${game.image}" alt="${game.title}" class="game-image">
+                    <div class="game-info">
+                        <h3 class="game-title">${game.title}</h3>
+                        <p class="game-description">${game.description}</p>
+                        <a href="${game.url}" class="play-btn">Play Now</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterGames(category) {
+            const cards = document.querySelectorAll('.game-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function searchGames(query) {
+            const cards = document.querySelectorAll('.game-card');
+            cards.forEach(card => {
+                const title = card.querySelector('.game-title').textContent.toLowerCase();
+                const description = card.querySelector('.game-description').textContent.toLowerCase();
+                if (title.includes(query.toLowerCase()) || description.includes(query.toLowerCase())) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const gamesGrid = document.getElementById('gamesGrid');
+            const searchInput = document.getElementById('searchInput');
+            const categoryButtons = document.querySelectorAll('.category-btn');
+
+            games.forEach(game => {
+                gamesGrid.innerHTML += createGameCard(game);
+            });
+
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    filterGames(button.dataset.category);
+                });
+            });
+
+            searchInput.addEventListener('input', (e) => {
+                searchGames(e.target.value);
+            });
+
+            const dropdownButton = document.querySelector('.dropbtn');
+            const dropdownContent = document.querySelector('.dropdown-content');
+
+            // Toggle the dropdown on button click
+            dropdownButton.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent the click from bubbling up
+                dropdownContent.classList.toggle('show'); // Toggle the dropdown visibility
+            });
+
+            // Close the dropdown if the user clicks outside of it
+            window.addEventListener('click', () => {
+                dropdownContent.classList.remove('show'); // Remove the show class
+            });
+
+            // Close the dropdown when a category is selected
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    dropdownContent.classList.remove('show'); // Close dropdown on selection
+                });
+            });
+        });
+    </script>
+</body>
+</html>
