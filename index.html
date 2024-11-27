@@ -32,22 +32,13 @@
             overflow-x: hidden;
         }
 
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.15),
-                rgba(0, 0, 0, 0.15) 1px,
-                transparent 1px,
-                transparent 2px
-            );
-            pointer-events: none;
-            z-index: 1;
+        .banner {
+            width: 100%; /* Full width of the container */
+            max-height: 20vh; /* Limit the height to 20% of the viewport height */
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Remove bottom space */
+            object-fit: cover; /* Ensure the image covers the area without skewing */
+            object-position: top; /* Focus on the top portion of the image */
         }
 
         .header {
@@ -365,29 +356,15 @@
     </style>
 </head>
 <body>
+    <a href="https://magiceden.io/ordinals/marketplace/pom">
+        <img src="stone_banner.jpeg" alt="Stone Banner" class="banner">
+    </a>
     <header class="header">
         <h1>$STONE ARCADE</h1>
     </header>
-<!-- 
-    <div class="search-container">
-        <input type="text" class="search-bar" placeholder="SEARCH GAMES..." id="searchInput">
-    </div>
-
-    <div class="dropdown">
-        <button class="dropbtn">Categories</button>
-        <div class="dropdown-content">
-            <button class="category-btn" data-category="all">All Games</button>
-            <button class="category-btn" data-category="puzzle">Puzzle</button>
-            <button class="category-btn" data-category="arcade">Arcade</button>
-            <button class="category-btn" data-category="strategy">Strategy</button>
-            <button class="category-btn" data-category="casual">Casual</button>
-        </div>
-    </div> 
--->
 
     <div class="games-grid" id="gamesGrid">
-
-        <!-- Repeat for other game cards -->
+        <!-- Game cards go here -->
     </div>
 
     <footer>
