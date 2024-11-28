@@ -104,6 +104,7 @@
             display: flex; /* Use flexbox for internal layout */
             flex-direction: column; /* Stack children vertically */
             justify-content: space-between; /* Space out title, description, and button */
+            min-height: 150px;
         }
 
         .game-title {
@@ -131,6 +132,7 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             margin-top: auto; /* Push the button to the bottom */
+            flex-shrink: 0;
         }
 
         .play-btn:hover {
