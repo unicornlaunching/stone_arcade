@@ -50,12 +50,18 @@
             box-shadow: 0 0 20px rgba(255, 113, 206, 0.5);
         }
 
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink), 0 0 30px var(--neon-pink);
+            }
+            100% {
+                text-shadow: 0 0 20px var(--neon-pink), 0 0 30px var(--neon-pink), 0 0 40px var(--neon-pink);
+            }
+        }
+
         .header h1 {
             font-size: 2.5rem;
             color: var(--neon-pink);
-            text-shadow: 0 0 10px var(--neon-pink),
-                         0 0 20px var(--neon-pink),
-                         0 0 30px var(--neon-pink);
             animation: glow 1.5s ease-in-out infinite alternate;
         }
 
@@ -80,9 +86,14 @@
             height: 100%; /* Allow height to adjust based on content */
         }
 
+        .game-card:hover {
+            transform: scale(1.05); /* Slightly enlarge the card on hover */
+            box-shadow: 0 0 20px rgba(255, 113, 206, 0.5); /* Add a glow effect */
+        }
+
         .game-image {
             width: 100%; /* Full width of the card */
-            height: 250px; /* Fixed height for uniformity */
+            height: 150px; /* Fixed height for uniformity */
             object-fit: cover; /* Cover the area without skewing */
         }
 
@@ -92,7 +103,6 @@
             display: flex; /* Use flexbox for internal layout */
             flex-direction: column; /* Stack children vertically */
             justify-content: space-between; /* Space out title, description, and button */
-            height: 100;
         }
 
         .game-title {
@@ -100,7 +110,6 @@
             margin-bottom: 0.5rem; /* Space below title */
             color: var(--neon-blue);
             text-shadow: 0 0 5px var(--neon-blue);
-            height: 100;
         }
 
         .game-description {
@@ -108,7 +117,6 @@
             color: #fff;
             margin-bottom: 1rem; /* Space below description */
             line-height: 1.5; /* Line height for readability */
-            height: 100;
         }
 
         .play-btn {
@@ -122,6 +130,10 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             margin-top: auto; /* Push the button to the bottom */
+        }
+
+        .play-btn:hover {
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink)); /* Reverse gradient on hover */
         }
 
         footer {
