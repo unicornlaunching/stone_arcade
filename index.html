@@ -174,22 +174,23 @@
 
         @media (max-width: 480px) {
             .header h1 {
-                font-size: 1.2rem; /* Smaller title font size for very small screens */
+                font-size: 1.5rem; /* Smaller title font size for very small screens */
             }
 
             .game-title {
-                font-size: 0.7rem; /* Smaller title font size */
+                font-size: 0.6rem; /* Smaller title font size */
+                margin-bottom: 0.2rem; /* Reduce margin to fit better */
             }
 
             .game-description {
                 font-size: 0.5rem; /* Smaller description font size */
-                margin-bottom: 0.5rem; /* Reduce margin to fit better */
+                margin-bottom: 0.2rem; /* Reduce margin to fit better */
             }
 
             .play-btn {
                 padding: 0.4rem; /* Smaller padding */
                 font-size: 0.5rem; /* Smaller button font size */
-                margin-top: 0.5rem; /* Ensure some space above the button */
+                margin-top: 0.2rem; /* Ensure some space above the button */
             }
 
             .game-image {
@@ -198,6 +199,10 @@
 
             .game-info {
                 padding: 0.5rem; /* Reduce padding for game info */
+                flex-grow: 1; /* Allow the info section to grow */
+                display: flex; /* Use flexbox for internal layout */
+                flex-direction: column; /* Stack children vertically */
+                justify-content: flex-start; /* Align items to the start */
             }
         }
 
