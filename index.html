@@ -191,6 +191,7 @@
                 padding: 0.4rem; /* Smaller padding */
                 font-size: 0.5rem; /* Smaller button font size */
                 margin-top: 0.2rem; /* Ensure some space above the button */
+                flex-shrink: 0; /* Prevent the button from shrinking */
             }
 
             .game-image {
@@ -203,6 +204,7 @@
                 display: flex; /* Use flexbox for internal layout */
                 flex-direction: column; /* Stack children vertically */
                 justify-content: flex-start; /* Align items to the start */
+                min-height: 150px; /* Ensure enough height for all elements */
             }
         }
 
